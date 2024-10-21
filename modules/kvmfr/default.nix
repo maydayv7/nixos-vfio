@@ -129,13 +129,9 @@ in {
           concatStringsSep "," (map (size: toString size) deviceSizes)
         }
       '';
-
-      "apparmor.d/local/abstractions/libvirt-qemu" =
-        mkIf config.security.apparmor.enable {
-          text = mkIf config.security.apparmor.enable apparmorAbstraction;
-        };
     };
-
+    
+    security.apparmor.includes."abstractions/libvirt-qemu" = mkIf config.security.apparmor.enable apparmorAbstraction;
     virtualisation.libvirtd.deviceACL = devices;
   };
 }
